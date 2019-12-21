@@ -1,0 +1,49 @@
+Harrison Kerr
+
+Description:
+  leakcount (Program 1) runs a program specified in command line arguments
+  and detects any memory leaks, printing them to stderr.
+  sctracer (Program 2) traces a program and counts how many
+  times that program uses each system call.
+
+KNOWN PROBLEMS
+The project is complete. The memory leak detector (program 1) and
+  the system call tracer (program 2) both function as intended.
+Program 1:
+  As intended, the memory leak detector does not work with all memory allocation
+    functions. Only calls to malloc are handled.
+Program 2:
+  This program functions as intended.
+
+DESIGN
+  leakcount:
+    -Building the shim, I needed a list structure, so I decided to use a
+      linked list for easy insertion and removal of nodes. I found that it
+      helped to use a two-way linked list where nodes have pointers to the
+      previous and next member of the list. Although it was a bit difficult to
+      ensure that I covered all possible cases when adding or removing nodes,
+      it made the program rather simple to understand once I figured out
+      the linked list function implementations.
+  sctracer:
+    Even after reading through the ptrace man page, some of the ptrace calls
+      were quite confusing. It seemed like a lot of it had to be done in one
+      specific way with little room for change other than to overall structure.
+      I had a general understanding of the structure of putting everything
+      that the parent does (in the ptrace example from the git repo) in a
+      while loop. I didn't really understand what some of the ptrace lines
+      did until finding another example to compare to.
+    When I realized that I needed to keep the list of system calls in order,
+      I felt like this would be a good opportunity to try out a binary search
+      tree. This kept me from having to sort the list of system calls at the
+      end of the program.
+
+Resources:
+  Operating Systems class lectures
+  Operating Systems class git repository,
+  man pages,
+  Piazza,
+  Jacob Sorber @ YouTube,
+  Stack Overflow
+  strace example: https://blog.nelhage.com/2010/08/write-yourself-an-strace-in-70-lines-of-code/
+  bst example: https://www.geeksforgeeks.org/binary-search-tree-set-1-search-and-insertion/
+  file IO instructions: https://www.cs.utah.edu/~germain/PPS/Topics/C_Language/file_IO.html
